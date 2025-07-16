@@ -3,7 +3,7 @@
 
 A responsive and interactive personal finance tracker built with **React** and **Tailwind CSS**, designed to help users manage income and expenses efficiently.
 
-(https://via.placeholder.com/800x400?text=Codezy+Expense+Tracker+Preview)
+Live Link : 
 
 ---
 
@@ -47,9 +47,9 @@ src/
 │   ├── TransactionForm.jsx
 │   ├── TransactionTable.jsx
 │   ├── TransactionChart.jsx
-├── App.js
-├── Home.jsx
-└── index.js
+│    ├── Home.jsx
+├── App.jsx
+└── main.jsx
 ```
 
 ---
@@ -122,7 +122,7 @@ Uses `useSound` to play a success sound when a transaction is added.
 ## 🙌 Credits
 
 - UI Framework: Tailwind CSS  
-- Sound Effects: [Zapsplat.com](https://www.zapsplat.com)  
+- Sound Effects: [Reactsounds.com](https://www.reactsounds.com)  
 - Chart Library: [Chart.js](https://www.chartjs.org/)  
 
 ---
