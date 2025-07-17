@@ -49,11 +49,7 @@ src/
 │   ├── TransactionForm.jsx
 │   ├── TransactionTable.jsx
 │   ├── TransactionChart.jsx
-<<<<<<< HEAD
 │   ├── Home.jsx
-=======
-│    ├── Home.jsx
->>>>>>> 9c0b602ff7765ae81724adddd7b07f6d934d9cde
 ├── App.jsx
 └── main.jsx
 ```
