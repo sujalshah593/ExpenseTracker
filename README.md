@@ -3,7 +3,11 @@
 
 A responsive and interactive personal finance tracker built with **React** and **Tailwind CSS**, designed to help users manage income and expenses efficiently.
 
+<<<<<<< HEAD
 ## 💻 Live Link :
+=======
+Live Link : 
+>>>>>>> 9c0b602ff7765ae81724adddd7b07f6d934d9cde
 
 ---
 
@@ -47,7 +51,11 @@ src/
 │   ├── TransactionForm.jsx
 │   ├── TransactionTable.jsx
 │   ├── TransactionChart.jsx
+<<<<<<< HEAD
 │   ├── Home.jsx
+=======
+│    ├── Home.jsx
+>>>>>>> 9c0b602ff7765ae81724adddd7b07f6d934d9cde
 ├── App.jsx
 └── main.jsx
 ```
