@@ -80,17 +80,17 @@ export default function AddEntryForm({ addEntry }) {
   };
 
   return (
-    <div className="mb-6">
-      <h2 className="text-xl font-semibold mb-4 text-black">
+    <div className="mb-6 p-4 shadow-lg   rounded-lg">
+      <h2 className="text-xl p-3 text-center font-semibold  ">
         Add New Transaction
       </h2>
-      <form onSubmit={handleSubmit} className="grid gap-4 text-black">
+      <form onSubmit={handleSubmit} className="grid gap-7 text-black w-full">
         <input
           type="date"
           name="date"
           value={form.date}
           onChange={handleChange}
-          className="border p-2 rounded text-black  border-gray-500"
+          className="border w-full p-2 rounded text-black  border-gray-500"
         />
         <input
           type="text"
@@ -105,7 +105,7 @@ export default function AddEntryForm({ addEntry }) {
             value={typesOptions.find((opt)=>opt.value === form.category)}
             onChange={(selected) => setForm((prev) => ({...prev, category:selected.value}))}
             placeholder="Select Category"
-            className="text-black"
+            className="text-black w-full"
             styles={{
                 menu: (base) => ({
                     ...base,
@@ -124,7 +124,7 @@ export default function AddEntryForm({ addEntry }) {
           placeholder="Amount"
           value={form.amount}
           onChange={handleChange}
-          className="border p-2 rounded border-gray-500 text-black"
+          className="border w-full p-2 rounded border-gray-500 text-black"
         />
         <div className="flex gap-4 items-center">
           <label className="flex items-center">
@@ -153,7 +153,7 @@ export default function AddEntryForm({ addEntry }) {
         <button
           type="submit"
           onClick={play}
-          className="bg-yellow-500 text-white py-2 rounded hover:bg-yellow-400 font-bold hover:cursor-pointer"
+          className="bg-blue-600 text-white py-2 w-full rounded hover:bg-blue-700 font-bold hover:cursor-pointer"
         >
           Add Transaction
         </button>

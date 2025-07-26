@@ -3,12 +3,20 @@ import YourBalance from "./BalanceSummary";
 import AddEntryForm from "./TransactionForm";
 import PreviousEntry from "./TransactionTable";
 import Select from "react-select";
-import SimplePieChart from "./ExpenseChart";
+import Charts from "./ExpenseChart";
 import { jsPDF } from "jspdf";
+import { v4 as uuidv4 } from "uuid";
+import { useRef } from "react";
 
 export default function Home() {
   const [entries, setEntries] = useState([]);
   const [transactionType, setTransactionType] = useState("All");
+
+  useEffect(() => {
+    const stored = localStorage.getItem("entries");
+    if (stored) setEntries(JSON.parse(stored));
+    else setEntries([]);
+  }, []);
 
   const buttonExport = () => {
     const doc = new jsPDF();
@@ -58,21 +66,19 @@ export default function Home() {
     check.readAsText(file);
   };
 
-  useEffect(() => {
-    const stored = localStorage.getItem("transactions");
-    if (stored) setEntries(JSON.parse(stored));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("entries", JSON.stringify(entries));
-  }, [entries]);
-
   const addEntry = (entry) => {
-    setEntries((prev) => [...prev, entry]);
+    const entryWithId = { ...entry, id: uuidv4() };
+    const updatedEntries = [...entries, entryWithId];
+    setEntries(updatedEntries);
+    localStorage.setItem("entries", JSON.stringify(updatedEntries));
   };
 
+  const fileInputRef = useRef(null);
+
   const deleteEntry = (id) => {
-    setEntries((prev) => prev.filter((e) => e.id !== id));
+    const updated = entries.filter((e) => e.id !== id);
+    setEntries(updated);
+    localStorage.setItem("entries", JSON.stringify(updated));
   };
 
   const selectEntiresType =
@@ -81,6 +87,7 @@ export default function Home() {
       : entries.filter((entry) => entry.category === transactionType);
 
   const typesOptions = [
+    { value: "All", label: "All Categories" },
     { value: "Food", label: "Food" },
     { value: "Transportation", label: "Transportation" },
     { value: "Entertainment", label: "Entertainment" },
@@ -100,62 +107,84 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-white flex justify-center p-6">
-      <div className="w-full max-w-4xl bg-white border-gray-500 border rounded-xl shadow-md p-6">
-        <h1 className="text-4xl font-bold text-center mb-6 bg-gradient-to-r from-blue-400 via-teal-400 to-emerald-400 text-transparent bg-clip-text">
+    <div className="min-h-screen bg-gary-50 flex justify-center p-6 sm:p-6 ">
+      <div className="w-full max-w-6xl bg-white shadow-xl   rounded-xl  p-6">
+        <h1 className="text-4xl font-extrabold text-center mb-8 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-transparent bg-clip-text">
           Codezy Expense Tracker
         </h1>
         <YourBalance entries={entries} />
-        <AddEntryForm addEntry={addEntry} />
-        <Select
-          options={typesOptions}
-          value={typesOptions.find((opt) => opt.value === transactionType)}
-          onChange={(selected) =>
-            setTransactionType((prev) => ({
-              ...prev,
-              category: selected.value,
-            }))
-          }
-          placeholder="Category"
-          className="text-black"
-          styles={{
-            menu: (base) => ({
-              ...base,
-              zIndex: 9999,
-            }),
-            menuList: (base) => ({
-              ...base,
-              maxHeight: 150,
-              overflowY: "auto",
-            }),
-          }}
-        />
-        <PreviousEntry entries={selectEntiresType} deleteEntry={deleteEntry} />
-        <div className="gap-5 flex flex-wrap justify-center items-center mt-5">
-          <button
-            onClick={buttonExport}
-            className=" bg-red-600 px-3 py-2 rounded-xl text-white font-semibold hover:bg-red-700 hover:cursor-pointer "
-          >
-            Export Entries
-          </button>
-          <div className="relative flex flex-col items-center">
-            <label className="relative group cursor-pointer">
-              <input
-                type="file"
-                accept=".json,application/json"
-                onChange={buttonImport}
-                className="bg-blue-600 px-3 w-54 py-2 rounded-xl text-white font-semibold hover:bg-blue-700 cursor-pointer"
-              />
-              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-50">
-                Only .json files supported
-              </span>
-            </label>
-            <span className="text-xs text-gray-600 mt-1 md:hidden">
-              Only .json files supported
-            </span>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <AddEntryForm addEntry={addEntry} />
+          <Charts entries={entries} />
         </div>
-        <SimplePieChart entries={entries} />
+
+        <div className="mt-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4 w-full">
+            <h2 className="text-2xl font-semibold text-gray-800">
+              Mini Statements
+            </h2>
+            <div className="flex items-center gap-4 flex-wrap">
+              <Select
+                options={typesOptions}
+                value={typesOptions.find(
+                  (option) => option.value === transactionType
+                )}
+                onChange={(option) => setTransactionType(option.value)}
+                placeholder="Select Category"
+                className="w-full text-black sm:w-[200px]"
+                styles={{
+                  menu: (base) => ({
+                    ...base,
+                    zIndex: 9999, // Ensure the dropdown appears above other elements
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    maxHeight: 150,
+                    overflowY: "auto", // Limit the height of the dropdown
+                  }),
+                }}
+              />
+              <button
+                onClick={buttonExport}
+                className="bg-blue-600 text-white cursor-pointer px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Export Entries
+              </button>
+              <label className="relative inline-block">
+                <input
+                  type="file"
+                  accept=".json,application/json"
+                  onChange={buttonImport}
+                  className="hidden"
+                />
+                <div className="relative inline-block">
+                  <input
+                    type="file"
+                    accept=".json,application/json"
+                    ref={fileInputRef}
+                    onChange={buttonImport}
+                    className="hidden"
+                  />
+                  <button
+                    onClick={() => fileInputRef.current.click()}
+                    className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 cursor-pointer"
+                  >
+                    Import Entries JSON
+                  </button>
+                </div>
+
+                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-50 hidden sm:block">
+                  Only .json files supported
+                </span>
+              </label>
+            </div>
+          </div>
+          <PreviousEntry
+            entries={selectEntiresType}
+            deleteEntry={deleteEntry}
+            transactionType={transactionType}
+          />
+        </div>
       </div>
     </div>
   );

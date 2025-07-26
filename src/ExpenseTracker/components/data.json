@@ -1,0 +1,65 @@
+[
+  {
+    "id": "1",
+    "date": "2025-07-01",
+    "description": "Salary for July",
+    "category": "Salary",
+    "amount": 50000,
+    "type": "income",
+    "actions": ""
+  },
+  {
+    "id": "2",
+    "date": "2025-07-03",
+    "description": "Freelance Web Project",
+    "category": "Freelancing",
+    "amount": 12000,
+    "type": "income",
+    "actions": ""
+  },
+  {
+    "id": "3",
+    "date": "2025-07-05",
+    "description": "Groceries",
+    "category": "Food",
+    "amount": 1500,
+    "type": "expense",
+    "actions": ""
+  },
+  {
+    "id": "4",
+    "date": "2025-07-06",
+    "description": "Netflix Subscription",
+    "category": "Entertainment",
+    "amount": 499,
+    "type": "expense",
+    "actions": ""
+  },
+  {
+    "id": "5",
+    "date": "2025-07-10",
+    "description": "Electricity Bill",
+    "category": "Utilities",
+    "amount": 2300,
+    "type": "expense",
+    "actions": ""
+  },
+  {
+    "id": "6",
+    "date": "2025-07-12",
+    "description": "YouTube Adsense",
+    "category": "Passive Income",
+    "amount": 8000,
+    "type": "income",
+    "actions": ""
+  },
+  {
+    "id": "7",
+    "date": "2025-07-15",
+    "description": "Dinner with Friends",
+    "category": "Food",
+    "amount": 1100,
+    "type": "expense",
+    "actions": ""
+  }
+]
